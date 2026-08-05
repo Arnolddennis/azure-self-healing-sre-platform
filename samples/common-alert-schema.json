@@ -1,0 +1,32 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AlertsManagement/alerts/example",
+      "alertRule": "High HTTP 5xx rate",
+      "severity": "Sev2",
+      "signalType": "Metric",
+      "monitorCondition": "Fired",
+      "monitoringService": "Platform",
+      "alertTargetIDs": [
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-demo/providers/Microsoft.Web/sites/demo-web-app"
+      ],
+      "firedDateTime": "2026-08-05T12:00:00Z",
+      "description": "HTTP 5xx responses exceeded the configured threshold."
+    },
+    "alertContext": {
+      "conditionType": "SingleResourceMultipleMetricCriteria",
+      "condition": {
+        "allOf": [
+          {
+            "metricName": "Http5xx",
+            "metricValue": 12,
+            "threshold": 5,
+            "operator": "GreaterThan",
+            "timeAggregation": "Total"
+          }
+        ]
+      }
+    }
+  }
+}
