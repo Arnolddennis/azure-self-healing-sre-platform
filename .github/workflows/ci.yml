@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Run unit tests
+        working-directory: app
+        run: python -m unittest discover -s tests -v
+
+      - name: Build container
+        run: docker build -t azure-self-healing-demo:${{ github.sha }} ./app
+
+      - name: Install YAML parser
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Validate YAML syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          paths = list(Path('k8s').rglob('*.yaml')) + list(Path('clusters').rglob('*.yaml'))
+          for path in paths:
+              list(yaml.safe_load_all(path.read_text(encoding='utf-8')))
+              print(f'validated {path}')
+          PY
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.12.2'
+
+      - name: Terraform format
+        run: terraform -chdir=terraform fmt -check
+
+      - name: Terraform initialize
+        run: terraform -chdir=terraform init -backend=false -input=false
+
+      - name: Terraform validate
+        run: terraform -chdir=terraform validate
