@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: self-healing-demo
+  namespace: self-healing-demo
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: self-healing-demo
+  namespaceSelector:
+    matchNames:
+      - self-healing-demo
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
