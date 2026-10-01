@@ -48,6 +48,23 @@ class DemoServiceTests(unittest.TestCase):
         self.assertIn("demo_http_requests_total", body)
         self.assertIn("demo_http_failures_total", body)
 
+    def test_homepage_serves_salonly_experience(self) -> None:
+        with urlopen(f"http://127.0.0.1:{self.port}/", timeout=2) as response:
+            body = response.read().decode("utf-8")
+        self.assertEqual(response.status, 200)
+        self.assertIn("Salonly", body)
+        self.assertIn("Book an appointment", body)
+
+    def test_static_styles_are_available(self) -> None:
+        with urlopen(f"http://127.0.0.1:{self.port}/styles.css", timeout=2) as response:
+            body = response.read().decode("utf-8")
+        self.assertIn("--ink", body)
+
+    def test_unknown_route_returns_404(self) -> None:
+        with self.assertRaises(HTTPError) as context:
+            urlopen(f"http://127.0.0.1:{self.port}/missing", timeout=2)
+        self.assertEqual(context.exception.code, 404)
+
 
 if __name__ == "__main__":
     unittest.main()

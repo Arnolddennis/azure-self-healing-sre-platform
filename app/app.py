@@ -9,6 +9,7 @@ import threading
 import time
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from typing import ClassVar
 
 
@@ -37,6 +38,7 @@ class Metrics:
 
 
 METRICS = Metrics()
+STATIC_DIR = Path(__file__).with_name("static")
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -60,8 +62,33 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(encoded)
 
+    def _send_file(self, filename: str, content_type: str) -> None:
+        """Serve a trusted file from the bundled static directory."""
+        try:
+            body = (STATIC_DIR / filename).read_bytes()
+        except FileNotFoundError:
+            self._send_json(HTTPStatus.NOT_FOUND, {"status": "not_found"})
+            return
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "public, max-age=3600")
+        self.end_headers()
+        self.wfile.write(body)
+
     def do_GET(self) -> None:
-        if self.path == "/health":
+        path = self.path.split("?", 1)[0]
+        static_files = {
+            "/": ("index.html", "text/html; charset=utf-8"),
+            "/styles.css": ("styles.css", "text/css; charset=utf-8"),
+            "/app.js": ("app.js", "text/javascript; charset=utf-8"),
+        }
+        if path in static_files:
+            METRICS.record()
+            self._send_file(*static_files[path])
+            return
+
+        if path == "/health":
             unhealthy = os.getenv("FORCE_UNHEALTHY", "false").lower() == "true"
             METRICS.record(failed=unhealthy)
             if unhealthy:
@@ -70,12 +97,12 @@ class Handler(BaseHTTPRequestHandler):
                 self._send_json(HTTPStatus.OK, {"status": "healthy"})
             return
 
-        if self.path == "/ready":
+        if path == "/ready":
             METRICS.record()
             self._send_json(HTTPStatus.OK, {"status": "ready"})
             return
 
-        if self.path == "/fail":
+        if path == "/fail":
             METRICS.record(failed=True)
             self._send_json(
                 HTTPStatus.INTERNAL_SERVER_ERROR,
@@ -83,7 +110,7 @@ class Handler(BaseHTTPRequestHandler):
             )
             return
 
-        if self.path == "/metrics":
+        if path == "/metrics":
             METRICS.record()
             snapshot = METRICS.snapshot()
             body = "\n".join(
@@ -103,14 +130,8 @@ class Handler(BaseHTTPRequestHandler):
             self._send_text(HTTPStatus.OK, body, "text/plain; version=0.0.4")
             return
 
-        METRICS.record()
-        self._send_json(
-            HTTPStatus.OK,
-            {
-                "service": "azure-self-healing-demo",
-                "routes": ["/health", "/ready", "/metrics", "/fail"],
-            },
-        )
+        METRICS.record(failed=True)
+        self._send_json(HTTPStatus.NOT_FOUND, {"status": "not_found"})
 
     def log_message(self, format: str, *args: object) -> None:
         print(json.dumps({"client": self.client_address[0], "message": format % args}))
