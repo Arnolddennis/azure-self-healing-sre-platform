@@ -1,6 +1,6 @@
 # Azure Self-Healing SRE Platform
 
-A portfolio-grade DevOps/SRE project that detects application failures, routes Azure Monitor alerts through a Logic App, invokes an Azure Automation PowerShell runbook, restarts an unhealthy Azure Web App, and optionally notifies an operations channel.
+A portfolio-grade DevOps/SRE project with a responsive Salonly Chennai salon experience. The same dependency-free service detects application failures, routes Azure Monitor alerts through a Logic App, invokes an Azure Automation PowerShell runbook, restarts an unhealthy Azure Web App, and optionally notifies an operations channel.
 
 The repository also includes a dependency-free Python service, Kubernetes deployment manifests, Flux GitOps definitions, Prometheus/Grafana integration, Jenkins and GitHub Actions pipelines, and an optional AI-assisted incident-summary utility.
 
@@ -69,6 +69,7 @@ python app.py
 
 Open:
 
+- `http://localhost:8080/` for the responsive Salonly website and appointment form
 - `http://localhost:8080/health`
 - `http://localhost:8080/ready`
 - `http://localhost:8080/metrics`

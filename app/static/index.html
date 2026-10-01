@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Salonly — thoughtful hair, beauty and self-care in Chennai.">
+  <title>Salonly — Chennai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Salonly home">salonly<span>.</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#services">Services</a>
+      <a href="#spaces">Our space</a>
+      <a href="#about">About us</a>
+    </nav>
+    <a class="button button-dark header-cta" href="#book">Book now <span aria-hidden="true">↗</span></a>
+    <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Chennai's neighbourhood salon</p>
+        <h1>Good hair.<br><em>Great days.</em></h1>
+        <p class="hero-intro">A warm, considered salon experience for you to pause, reset and leave feeling entirely yourself.</p>
+        <div class="hero-actions">
+          <a class="button button-coral" href="#book">Book an appointment <span>↗</span></a>
+          <a class="text-link" href="#services">Explore services <span>↓</span></a>
+        </div>
+      </div>
+      <div class="hero-visual" role="img" aria-label="Warm, modern salon interior">
+        <div class="hero-note">Open today<br><strong>10 am — 8 pm</strong></div>
+        <div class="image-label">Nungambakkam<br>Chennai</div>
+      </div>
+      <p class="vertical-note">HAIR · BEAUTY · YOU</p>
+    </section>
+
+    <section class="marquee" aria-label="Our values">
+      <div>Come as you are <b>✦</b> Leave feeling better <b>✦</b> Come as you are <b>✦</b> Leave feeling better <b>✦</b></div>
+    </section>
+
+    <section class="services section" id="services">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span></span> Made for your every mood</p><h2>Your kind of<br><em>self-care.</em></h2></div>
+        <p>No impossible standards, no hurried appointments. Just skilled hands, honest advice and treatments that fit your life.</p>
+      </div>
+      <div class="service-grid">
+        <article class="service-card hair"><p>01</p><div><h3>Hair</h3><p>Cuts, colour, styling & care</p></div><span>↗</span></article>
+        <article class="service-card skin"><p>02</p><div><h3>Skin</h3><p>Facials, clean-ups & rituals</p></div><span>↗</span></article>
+        <article class="service-card nails"><p>03</p><div><h3>Nails</h3><p>Manicures, colour & art</p></div><span>↗</span></article>
+        <article class="service-card makeup"><p>04</p><div><h3>Makeup</h3><p>Everyday, events & bridal</p></div><span>↗</span></article>
+      </div>
+    </section>
+
+    <section class="manifesto" id="about">
+      <div class="portrait portrait-one"></div>
+      <div class="manifesto-copy"><p class="eyebrow light"><span></span> Our little philosophy</p><h2>Beauty shouldn't<br>feel like <em>work.</em></h2><p>We created Salonly as the kind of place we'd want to visit: relaxed, welcoming and quietly brilliant at what it does.</p><a class="button button-light" href="#spaces">Meet Salonly <span>↗</span></a></div>
+      <div class="portrait portrait-two"></div>
+    </section>
+
+    <section class="space section" id="spaces">
+      <div class="space-image"><span>Take a seat.<br>We've got you.</span></div>
+      <div class="space-copy"><p class="eyebrow"><span></span> The Salonly space</p><h2>Designed to slow<br>things <em>down.</em></h2><p>Soft light, easy conversations and a team that remembers how you take your coffee. Everything here is designed to help you settle in.</p><dl><div><dt>Location</dt><dd>Nungambakkam, Chennai</dd></div><div><dt>Hours</dt><dd>Every day, 10 am — 8 pm</dd></div></dl><a class="text-link" href="#book">Get directions <span>↗</span></a></div>
+    </section>
+
+    <section class="booking section" id="book">
+      <div><p class="eyebrow light"><span></span> A little time for you</p><h2>Ready when<br><em>you are.</em></h2><p>Pick a service, find a time and we'll take care of everything else.</p></div>
+      <form class="booking-form">
+        <label>What are you looking for?<select required><option value="">Choose a service</option><option>Haircut & styling</option><option>Hair colour</option><option>Skin ritual</option><option>Nails</option><option>Makeup</option></select></label>
+        <div class="form-row"><label>Your name<input type="text" placeholder="Your name" required></label><label>Phone number<input type="tel" placeholder="+91" required></label></div>
+        <button class="button button-coral" type="submit">Find an appointment <span>↗</span></button>
+        <p class="form-status" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer><a class="brand" href="#top">salonly<span>.</span></a><p>Good hair. Great days.<br>Made with care in Chennai.</p><div><a href="#services">Services</a><a href="#about">About</a><a href="#book">Book now</a></div><p class="copyright">© 2026 Salonly</p></footer>
+</body>
+</html>

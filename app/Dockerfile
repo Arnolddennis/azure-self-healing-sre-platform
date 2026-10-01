@@ -7,6 +7,7 @@ ENV PORT=8080
 RUN useradd --create-home --uid 10001 appuser
 WORKDIR /app
 COPY app.py /app/app.py
+COPY static /app/static
 USER appuser
 EXPOSE 8080
 CMD ["python", "app.py"]
